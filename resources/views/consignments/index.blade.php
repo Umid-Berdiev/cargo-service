@@ -1,0 +1,110 @@
+@extends('layouts.master')
+
+@section('content')
+	<div class="col-xs-12 mb-3">
+		<h2 class="title float-left">Документ {{ $document->title }} </h2>
+		<div class="float-right">
+			<button target="_blank" href="" class="btn btn-primary">EXPORT XML</button>
+		</div>  
+		<div class="clearfix"></div>
+	</div>
+	<hr />
+
+	<nav class="nav nav-pills mb-3">
+		@include('partials.alerts')
+		<a href="{{ route('documents.edit', $document->id) }}" class="nav-link ml-auto btn-light mr-1">Вернуться к документу</a>
+		{{-- <a href="{{ route('consignments.index', $document->id) }}" class="nav-link active">Груз</a> --}}
+		<a href="{{ route('consignments.create', $document->id) }}" class="nav-link btn-success">Добавить новую партию</a>
+	</nav>
+	
+	<div class="col-xs-12 bg-white">
+		<table class="table table-sm table-bordered"> 
+			<thead>
+				<tr>
+					<th>Партия</th>
+					<th>Кол. товаров</th>
+					<th>Вес</th>
+					{{-- <th>Кол. груз. мест</th> --}}
+					<th>Стоимость</th>
+					<th>Действия</th>
+				</tr>
+			</thead>
+			<tbody>
+				@foreach ($consignments as $record)
+					<tr>
+						<td>{{ $record->title }}</td>
+						<td>{{ $record->goods->count() }}</td>
+						<td>
+							<?
+								$weight = 0;
+								foreach ($record->goods as $key) {
+									$weight += $key->p5t3;
+								}
+							?>
+							{{ $weight }}
+						</td>				
+						{{-- <td>3431</td> --}}
+						<td>
+							<?
+								$price = 0;
+								foreach ($record->goods as $key) {
+									$price += $key->p6t3;
+								}
+							?>
+							{{ $price }}
+						</td>
+						<td>
+							<a class="btn btn-sm btn-primary float-left" href="{{ route('consignments.edit', ['document' => $document->id, 'consignment' => $record->id]) }}">
+								<i class="fas fa-edit"></i>
+							</a>
+							<form action="{{ route('consignments.destroy', ['document' => $document->id, 'consignment' => $record->id]) }}" method="post">
+								@csrf
+								@method('delete')
+								<button class="btn btn-sm btn-danger float-left" type="submit" onclick="return confirm('Вы уверены?')">
+									<i class="fas fa-trash"></i>
+								</button>
+							</form>
+							{{-- <a href="{{ route('goods.create', [$document->id, $record->id]) }}" class="btn btn-sm btn-success" type="submit"><i class="fas fa-plus"></i></a> --}}
+						</td>
+					</tr>
+				@endforeach
+				<tr>
+					<th>ВСЕГО</th>
+					<th>
+						<?
+							$totalCount = 0;
+							foreach ($consignments as $party) {
+								$totalCount += $party->goods->count();
+							}
+						?>
+						{{ $totalCount }}
+					</th>
+					<th>
+						<?
+							$totalWeight = 0;
+							foreach ($consignments as $party) {
+								foreach ($party->goods as $product) {
+									$totalWeight += $product->p5t3;
+								}
+							}
+						?>
+						{{ $totalWeight }}
+					</th>
+					{{-- <th>3431</th> --}}
+					<th>
+						<?
+							$totalValue = 0;
+							foreach ($consignments as $party) {
+								foreach ($party->goods as $product) {
+									$totalValue += $product->p6t3;
+								}
+							}
+						?>
+						{{ $totalValue }}
+					</th>
+					<th></th>
+				</tr>
+			</tbody>
+		</table>
+	</div>
+@endsection
