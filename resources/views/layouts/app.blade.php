@@ -74,22 +74,22 @@
                 onclick="event.preventDefault();
                 document.getElementById('logout-form').submit();">
                 {{ __('Logout') }}
-              </a>
+                </a>
 
-              <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                @csrf
-              </form>
-            </div>
-          </li>
-          @endguest
-        </ul>
+                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                  @csrf
+                </form>
+              </div>
+            </li>
+            @endguest
+          </ul>
+        </div>
       </div>
-    </div>
-  </nav>
+    </nav>
 
-  <main class="py-4">
-    @yield('content')
-  </main>
-</div>
+    <main class="py-4">
+      @yield('content')
+    </main>
+  </div>
 </body>
 </html>

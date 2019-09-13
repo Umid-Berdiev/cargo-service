@@ -8,9 +8,9 @@
 				<label class="font-weight-bold" for="doc_type">Вид следования</label>
 				<div class="">
 					<select class="custom-select" name="tags[p1t1]">
-						<option value="1">ЭК</option>
-						<option value="2">ИМ</option>
-						<option value="3">ТР</option>
+						<option value="1" {{ $tags['p1t1'] == 1 ? 'selected' : '' }}>ЭК</option>
+						<option value="2" {{ $tags['p1t1'] == 2 ? 'selected' : '' }}>ИМ</option>
+						<option value="3" {{ $tags['p1t1'] == 3 ? 'selected' : '' }}>ТР</option>
 					</select>
 				</div>
 			</div>

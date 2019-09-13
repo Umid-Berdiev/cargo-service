@@ -69,10 +69,10 @@ body {
   font-family: "Nunito", sans-serif;
   font-size: 0.9rem;
   font-weight: 400;
-  line-height: 1.5;
+  line-height: 1.6;
   color: #212529;
   text-align: left;
-  background-color: #edf1f2;
+  background-color: #f8fafc;
 }
 
 [tabindex="-1"]:focus {
@@ -10643,3 +10643,4 @@ a.text-dark:focus {
     border-color: #dee2e6;
   }
 }
+

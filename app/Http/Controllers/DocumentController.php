@@ -39,11 +39,20 @@ class DocumentController extends Controller
   public function create()
   {
     $document = new Document();
+    $all_tags = Document::where('user_id', Auth::user()->id)->pluck('tags')->all();
+    $tags_arr = [];
+    foreach ($all_tags as $key => $value) {
+      $v = json_decode("{" . $value . "}");
+      array_push($tags_arr, $v);
+    }
+
     $tags = json_decode($document->tags);
     $countries = Document::getCountries();
+    // dd(json_encode($countries));
     $customs = Document::getCustoms();
-    $auto_type = Document::auto_type;
-    return view('documents.create', compact('document', 'countries', 'customs', 'auto_type', 'tags'));
+    $auto_types = Document::auto_types;
+    
+    return view('documents.create', compact('document', 'countries', 'customs', 'auto_types', 'tags', 'tags_arr'));
   }
 
   /**
@@ -67,13 +76,19 @@ class DocumentController extends Controller
 
     $document = Document::create($data);
 
-
     $countries = Document::getCountries();
     $customs = Document::getCustoms();
-    $auto_type = Document::auto_type;
+    $auto_types = Document::auto_types;
     $tags = json_decode('{' . $document->tags . '}', true);
 
-    return view('documents.edit', compact('document', 'countries', 'customs', 'auto_type', 'tags'));
+    $all_tags = Document::where('user_id', Auth::user()->id)->pluck('tags')->all();
+    $tags_arr = [];
+    foreach ($all_tags as $key => $value) {
+      $v = json_decode("{" . $value . "}");
+      array_push($tags_arr, $v);
+    }
+
+    return redirect(route('documents.edit', [$document->id]))->with('success', 'Документ успешно создано!');
   }
 
   /**
@@ -97,11 +112,20 @@ class DocumentController extends Controller
   {
     $countries = Document::getCountries();
     $customs = Document::getCustoms();
-    $auto_type = Document::auto_type;
+    $auto_types = Document::auto_types;
     $tags = json_decode('{' . $document->tags . '}', true);
+    // dump($tags);
 
-    return view('documents.edit', compact('document', 'countries', 'customs', 'auto_type', 'tags'))
-      ->with('success', 'Документ успешно создано!');
+    $all_tags = Document::where('user_id', Auth::user()->id)->pluck('tags')->all();
+    $tags_arr = [];
+    foreach ($all_tags as $key => $value) {
+      $v = json_decode("{" . $value . "}");
+      array_push($tags_arr, $v);
+    }
+
+    // dd(json_encode($tags['p16t1']));
+
+    return view('documents.edit', compact('document', 'countries', 'customs', 'auto_types', 'tags', 'tags_arr'));
   }
 
   /**
@@ -122,7 +146,7 @@ class DocumentController extends Controller
 
     $document->update($data);
 
-    return redirect('documents')->with('success', 'Документ успешно обновлен!');
+    return back()->with('success', 'Документ успешно обновлен!');
   }
 
   /**
@@ -141,8 +165,20 @@ class DocumentController extends Controller
 
   public function arr_to_xml(Request $request, $document)
   {
-    $arr = json_decode(Document::whereId($document)->with(['consignments.goods', 'consignments.reference_documents'])->first());
-    dd($arr);
-
+    $data1 = Document::whereId($document)->pluck('tags')->first();
+    $data2 = Document::whereId($document)->with(['consignments.goods', 'consignments.reference_documents'])->first();
+    dd($data2);
   }
+
+  public function searchData(Request $request)
+  {
+    // $data = Document::all()->pluck('tags');
+    // dd($request->q);
+    // $data2 = [];
+    // foreach ($data as $value) {
+    //   if(in_array($value, $request->q)) return array_push($data2, $value);
+    // }
+    // return json_decode($data, true);
+  }
+ 
 }

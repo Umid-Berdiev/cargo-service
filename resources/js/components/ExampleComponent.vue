@@ -16,8 +16,22 @@
 
 <script>
     export default {
-        mounted() {
-            console.log('Component mounted.')
+        mounted: function showInfo() {
+            console.log(this.transport);
+        },
+        
+        data() {
+            return {
+                transport: store.state,
+            }
+        },
+
+        methods: {
+            searchItem: function(value) {
+                let newArr = this.transport.map(item => item.includes(value));
+                console.log(newArr);
+            }
         }
+
     }
 </script>

@@ -6,6 +6,7 @@ use App\Consignment;
 use App\Document;
 use App\Goods;
 use Illuminate\Http\Request;
+use Auth;
 
 class ConsignmentController extends Controller
 {
@@ -44,10 +45,21 @@ class ConsignmentController extends Controller
     $document = Document::findOrFail(request()->document);
     $countries = Document::getCountries();
     $customs = Document::getCustoms();
-    $auto_type = Document::auto_type;
+    $auto_types = Document::auto_types;
     $units = Document::units;
+
+    $docs = Document::where('user_id', Auth::user()->id)->pluck('id')->all();
+    $all_tags = Consignment::where('document_id', $docs)->pluck('tags')->all();
+    // dd($all_tags);
+    $tags_arr = [];
+    foreach ($all_tags as $key => $value) {
+      $v = json_decode("{" . $value . "}");
+      array_push($tags_arr, $v);
+    }
+
     $products = Goods::where('consignment_id', $consignment->id)->get();
-    return view('consignments.create', compact('consignment', 'tags', 'document', 'countries', 'customs', 'auto_type', 'units', 'products'));
+
+    return view('consignments.create', compact('consignment', 'tags', 'document', 'countries', 'customs', 'auto_types', 'units', 'products', 'tags_arr'));
   }
 
   /**
@@ -98,7 +110,16 @@ class ConsignmentController extends Controller
     $tags = json_decode('{' . $consignment->tags . '}', true);
     $countries = Document::getCountries();
     $customs = Document::getCustoms();
-    return view('consignments.edit', compact('document', 'consignment', 'tags', 'countries', 'customs'));
+
+    $docs = Document::where('user_id', Auth::user()->id)->pluck('id')->all();
+    $all_tags = Consignment::where('document_id', $docs)->pluck('tags')->all();
+    $tags_arr = [];
+    foreach ($all_tags as $key => $value) {
+      $v = json_decode("{" . $value . "}");
+      array_push($tags_arr, $v);
+    }
+
+    return view('consignments.edit', compact('document', 'consignment', 'tags', 'countries', 'customs', 'tags_arr'));
   }
 
   /**
@@ -126,7 +147,7 @@ class ConsignmentController extends Controller
     // $document = Document::findOrFail($document_id);
     // $tags = json_decode('{' . $consignment->tags . '}', true);
     
-    return redirect(route('consignments.index', [$request->document]))->with('success', 'Партия успешно обновлена!');
+    return back()->with('success', 'Партия успешно обновлена!');
   }
 
   /**

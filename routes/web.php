@@ -23,6 +23,7 @@ Auth::routes();
 
 Route::resource('/documents', 'DocumentController');
 Route::get('/documents/{document}', 'DocumentController@arr_to_xml')->name('documents.arrtoxml');
+Route::get('/documents/docdata', 'DocumentController@searchData')->name('documents.docdata');
 
 Route::group(['prefix' => '/documents/{document}'], function() {
 	Route::resource('/consignments', 'ConsignmentController', ['except' => ['show']]);

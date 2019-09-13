@@ -8,6 +8,9 @@ class Document extends Model
 {
 	protected $guarded = [];
   protected $dates = ['created_at', 'updated_at'];
+  // protected $casts = [
+  //   'tags' => 'array'
+  // ];
 	
 	public function user()
 	{
@@ -601,7 +604,7 @@ class Document extends Model
   	'986' => 'Бразильский реал',
   );
 
-	const auto_type = array(
+	const auto_types = array(
 		10 => 'Легковая',
 		20 => 'Грузовая',
 		21 => 'Грузовая - грузоподъемностью до 10 тонн',
