@@ -2,11 +2,15 @@
 
 @section('content')
 	<div class="row">
-		<div class="col-12">
-			<div class="float-left">@include('partials.alerts')</div>
-			<a href="{{ route('consignments.edit', [request()->route('document'), request()->route('consignment')]) }}" class="btn btn-light float-right mb-1">Вернуться</a>
+		<div class="col-auto">
+			@include('partials.alerts')
 		</div>
-		<div class="clearfix"></div>
+		<div class="col-auto ml-auto">
+			<a href="{{ route('consignments.edit', [request()->route('document'), request()->route('consignment')]) }}" class="btn btn-light border-secondary">Вернуться</a>
+		</div>
+	</div>
+	<hr>
+	<div class="row">
 		<div class="col-md-6">
 			<div class="card">
 				<div class="card-header h4 py-2">Список товаров</div>
@@ -34,7 +38,7 @@
 											@endforeach
 										</td> 
 										<td>
-											<a class="btn btn-sm btn-primary float-left py-1" href="{{ route('goods.edit', [request()->route('document'), request()->route('consignment'), $item->id]) }}">
+											<a class="btn btn-sm btn-primary float-left py-1 mr-1" href="{{ route('goods.edit', [request()->route('document'), request()->route('consignment'), $item->id]) }}">
 												<i class="fas fa-edit"></i></a>
 											<form action="{{ route('goods.destroy', [request()->route('document'), request()->route('consignment'), $item->id]) }}" method="post">
 				                @csrf
@@ -60,20 +64,18 @@
 						if (request()->route()->named('goods.edit')) {
 							$action = route('goods.update', [request()->route('document'), request()->route('consignment'), request()->route('goods')]);
 								$method = method_field('patch');
-				    }
-						//if (request(route(''))) {
-							//$action = route('goods.update', [request()->route('document'), request()->route('consignment'), request()->route('goods')]);
-							//$method = 'patch';
-						else {
+				    } else {
 							$action = route('goods.store', [request()->route('document'), request()->route('consignment')]);
 							$method = "";
 						}
 					?>
 					<form action="{{ $action }}" method="post">
-						{{-- <input type="hidden" name="_method" value="{{ $method }}"> --}}
 						{{ $method }}
 						@include('goods.form')
 						<button type="submit" class="btn btn-primary ml-auto">Добавить товар</button>
+						@if (request()->route()->named('goods.edit'))
+							<a href="{{ route('goods.create', [request()->route('document'), request()->route('consignment')]) }}" type="submit" class="btn btn-secondary">Отменить</a>
+						@endif
 					</form>
 				</div>
 			</div>

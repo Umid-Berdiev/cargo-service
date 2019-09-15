@@ -85,7 +85,7 @@
 	      </div> --}}
 
 	      <div class="input-group">
-					<input v-model="input" name="tags[p16t1]" type="text" maxlength="10" class="form-control" />
+					<input v-model="input" name="tags[p16t1][]" type="text" maxlength="10" class="form-control" />
 	      	<div class="input-group-append">
 	      		<button @click="addInput" class="btn btn-link input-group-text" type="button"><i class="fas fa-plus fa-xs"></i></button>
 	      	</div>
@@ -93,8 +93,8 @@
 
 	      <div v-for="(row, i) in trailer_nums" class="input-group">
 	      	{{-- <input v-if="!row" name=`tags[p16t1]` value="" type="text" maxlength="10" class="form-control" /> --}}
-	      	<input :value="row" :name=`tags[p16t1][${i}]` type="text" maxlength="10" class="form-control" />
-	      	<div class="input-group-append">
+	      	<input v-if="row != null" :value="row" :name=`tags[p16t1][${i}]` type="text" maxlength="10" class="form-control" />
+	      	<div v-if="row != null" class="input-group-append">
 	      		<button @click="removeInput" class="btn btn-link input-group-text" type="button"><i class="fas fa-minus fa-xs"></i></button>
 	      	</div>
 	      </div>

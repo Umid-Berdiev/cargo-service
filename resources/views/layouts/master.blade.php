@@ -100,13 +100,9 @@
 		  </div>
 		</nav>
 
-		<main id="main" class="py-4">
-			<div class="container-fluid">
-				<div class="row">
-					<div class="col">
-		    		@yield('content')
-					</div>
-				</div>
+		<main id="main">
+			<div class="container-fluid py-3">
+    		@yield('content')
 			</div>
 	  </main>
 

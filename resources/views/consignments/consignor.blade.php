@@ -100,7 +100,13 @@
 			</div>
 			<div class="form-group col-6">
 				<label class="font-weight-bold">Область/город: *</label>
-				<input type="text" name="tags[p3t2]" v-model="address1" class="form-control">
+				<div v-if="country2 == 860" class="">
+					<select class="selectpicker" v-model="address1" required data-width="100%" data-live-search="true" name="tags[p3t2]">
+						<option v-for="(value, key) in regions" :value="key" :key="key" v-text="key + ' ' + value"></option>
+						
+					</select>
+				</div>
+				<input v-else type="text" name="tags[p3t2]" v-model="address1" class="form-control">
 			</div>
 		</div>
 		<div class="form-group">

@@ -104,7 +104,13 @@
 		<div class="form-row mt-2">
 			<div class="form-group col-6">
 				<label class="font-weight-bold">Область/город: *</label>
-				<input type="text" name="tags[p17t2]" v-model="address1" class="form-control" />
+				<div v-if="country2 == 860" class="">
+					<select class="selectpicker" v-model="address1" required data-width="100%" data-live-search="true" name="tags[p17t2]">
+						<option v-for="(value, key) in regions" :value="key" :key="key" v-text="key + ' ' + value"></option>
+						
+					</select>
+				</div>
+				<input v-else type="text" name="tags[p17t2]" v-model="address1" class="form-control" />
 			</div>
 			<div class="form-group col-6">
 				<label class="font-weight-bold">Район, улица и номер дома: *</label>
@@ -113,25 +119,20 @@
 		</div>
 		<div class="form-row border-bottom">
 			<div class="form-group col-md-6">
-				<label class="font-weight-bold">Признак контейнерной перевозки: *</label>
+				<label for="customSwitch2" class="font-weight-bold">Признак контейнерной перевозки: *</label>
 				<div class="custom-control custom-switch">
 					<input id="customSwitch2" v-model="isChecked" type="checkbox" class="custom-control-input" />
 					<label for="customSwitch2" class="custom-control-label"></label>
 				</div>
 				<input name="tags[p29t2]" type="hidden" :value="isChecked ? 1 : 0" />
-				{{-- <div class="">
-					<label class="switch">
-					  <input type="checkbox" >
-					  <span class="slider round"></span>
-					</label>
-				</div> --}}
+				
 			</div>
 			<div v-show="isChecked" class="form-group col-md-6">
         <div class="control-group">
           <label class="font-weight-bold">Добавить номер контейнера: *</label>
           
           <div class="input-group">
-						<input v-model="input" name="tags[p30t2]" type="text" maxlength="10" class="form-control" />
+						<input v-model="input" name="tags[p30t2][]" type="text" maxlength="10" class="form-control" />
 		      	<div class="input-group-append">
 		      		<button @click="addInput" class="btn btn-link input-group-text" type="button"><i class="fas fa-plus fa-xs"></i></button>
 		      	</div>
@@ -139,8 +140,8 @@
 
 		      <div v-for="(row, i) in containers" class="input-group">
 		      	{{-- <input v-if="!row" name=`tags[p30t2]` value="" type="text" maxlength="10" class="form-control" /> --}}
-		      	<input :value="row" :name=`tags[p30t2][${i}]` type="text" maxlength="10" class="form-control" />
-		      	<div class="input-group-append">
+		      	<input v-if="row != null" :value="row" :name=`tags[p30t2][${i}]` type="text" maxlength="10" class="form-control" />
+		      	<div v-if="row != null" class="input-group-append">
 		      		<button @click="removeInput" class="btn btn-link input-group-text" type="button"><i class="fas fa-minus fa-xs"></i></button>
 		      	</div>
 		      </div>

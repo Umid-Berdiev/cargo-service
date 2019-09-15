@@ -2,11 +2,15 @@
 
 @section('content')
   <div class="row">
-    <div class="col-12">
-      <div class="float-left">@include('partials.alerts')</div>
-      <a href="{{ route('consignments.edit', [request()->route('document'), request()->route('consignment')]) }}" class="btn btn-light float-right mb-1">Вернуться</a>
+    <div class="col-auto">
+      @include('partials.alerts')
     </div>
-    <div class="clearfix"></div>
+    <div class="col-auto ml-auto">
+      <a href="{{ route('consignments.edit', [request()->route('document'), request()->route('consignment')]) }}" class="btn btn-light border-secondary">Вернуться</a>
+    </div>
+  </div>
+  <hr>
+  <div class="row">
     <div class="col-12 mb-3">
       <div class="card">
       	<div class="card-header h4 py-2">

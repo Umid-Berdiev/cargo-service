@@ -3,6 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Document;
+use App\Consignment;
+use App\Goods;
+use App\ReferenceDocument;
 use Illuminate\Http\Request;
 use Auth;
 
@@ -157,28 +160,30 @@ class DocumentController extends Controller
    */
   public function destroy(Document $document)
   {
+    foreach ($document->consignments as $consignment) {
+      foreach ($consignment->goods as $item) {
+        $item->delete();
+      }
+      foreach ($consignment->reference_documents as $item) {
+        $item->delete();
+      }
+      $consignment->delete();
+    }
     $document->delete();
 
     return redirect('documents')->with('success', 'Документ успешно удален!');
 
   }
 
-  public function arr_to_xml(Request $request, $document)
+  public function data_to_xml(Request $request, $document)
   {
     $data1 = Document::whereId($document)->pluck('tags')->first();
-    $data2 = Document::whereId($document)->with(['consignments.goods', 'consignments.reference_documents'])->first();
+    $data2 = Consignment::where('document_id', $document)->pluck('tags')->all();
+    $consignments = Consignment::where('document_id', $document)->pluck('id')->all();
+    $data3 = Goods::select('p1t3', 'p2t3', 'p3t3', 'p4t3', 'p5t3')->whereIn('consignment_id', $consignments)->get();
+    $data4 = ReferenceDocument::whereIn('consignment_id', $consignments)->get();
     dd($data2);
-  }
 
-  public function searchData(Request $request)
-  {
-    // $data = Document::all()->pluck('tags');
-    // dd($request->q);
-    // $data2 = [];
-    // foreach ($data as $value) {
-    //   if(in_array($value, $request->q)) return array_push($data2, $value);
-    // }
-    // return json_decode($data, true);
   }
  
 }

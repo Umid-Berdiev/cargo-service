@@ -1,50 +1,56 @@
 @extends('layouts.master')
 
 @section('content')
-	@include('partials.alerts')
-	<div class="col-xs-12 mb-3 ml-3">
-		<h2 class="title float-left">Документ {{ $document->title }} </h2>
-		<div class="float-right">
-			<a href="{{ route('documents.arrtoxml', $document->id) }}" class="btn btn-primary">EXPORT TO XML</a>
+	<div class="row justify-content-between">
+		<div class="col-auto">
+			<h2 class="title">Документ {{ $document->title }} </h2>
+		</div>
+		<div class="col-auto">
+			@include('partials.alerts')
+		</div>
+		<div class="col-auto">
+			<a href="{{ route('consignments.index', $document->id) }}" class="btn btn-light border-secondary mr-1">Список партии</a>
+			<a href="{{ route('documents.datatoxml', $document->id) }}" class="btn btn-primary">EXPORT TO XML</a>
 		</div>  
-		<div class="clearfix"></div>
-	</div>
+	</div>  
+	<div class="clearfix"></div>
 	<hr />
 
-	<nav class="nav nav-pills mb-3 ml-3">
-		{{-- <a href="{{ route('documents.edit', $document->id) }}" class="nav-link active">Транспорт</a> --}}
-		<a href="{{ route('consignments.index', $document->id) }}" class="nav-link ml-auto mr-3 btn-light cargo_tab" id="">Список партии</a>
-	</nav>
-
-	<div class="create">
-		<form action="{{ route('documents.update', $document->id) }}" method="post" enctype="multipart/form-data">
-			@csrf
-			@method('patch')
-			<div class="row mb-3">
-				<div class="col-md-6">
-					@include('documents.general-info')
-				</div>
-				<div id="transport_info" class="col-md-6">
-					@include('documents.transport_info')
-				</div>
+	<form action="{{ route('documents.update', $document->id) }}" method="post" enctype="multipart/form-data">
+		@csrf
+		@method('patch')
+		<div class="row mb-3">
+			<div id="general_info" class="col-md-6">
+				@include('documents.general-info')
 			</div>
-			<div class="row mb-3">
-				<div id="carrier_info" class="col-md-6">
-					@include('documents.carrier_details')
-				</div>
-				<div id="driver_info" class="col-md-6">
-					@include('documents.driver_details')
-				</div>
+			<div id="transport_info" class="col-md-6">
+				@include('documents.transport_info')
 			</div>
-				<button type="submit" class="btn btn-primary float-right">Сохранить</button>
+		</div>
+		<div class="row mb-3">
+			<div id="carrier_info" class="col-md-6">
+				@include('documents.carrier_details')
 			</div>
-		</form>
-	</div> 
+			<div id="driver_info" class="col-md-6">
+				@include('documents.driver_details')
+			</div>
+		</div>
+			<button type="submit" class="btn btn-primary float-right mb-3">Сохранить</button>
+		</div>
+	</form>
 
 @endsection
 
 @section('scripts')
 	<script>
+		let general_info = new Vue({
+			el: "#general_info",
+
+			data: {
+		    isChecked: false,
+			}
+		});
+
 		let transport_info = new Vue({
 			el: "#transport_info",
 
@@ -67,7 +73,9 @@
 				motor_num: {!! json_encode($tags['p20t1']) !!},
 				motor_size: {!! json_encode($tags['p23t1']) !!},
 				texpass_num: {!! json_encode($tags['p27t1']) !!},
-				trailer_nums: [{!! json_encode($tags['p16t1']) !!}],
+				trailer_nums: [
+					...{!! json_encode($tags['p16t1']) !!}
+				],
 				input: "",
 				vin_num: {!! json_encode($tags['p19t1']) !!},
 			},
@@ -139,7 +147,8 @@
 							this.secondname = this.tags_arr[i]['p37t1']
 							this.country = this.tags_arr[i]['p39t1']
 							this.address = this.tags_arr[i]['p30t1']
-						} else if (this.company_name == this.tags_arr[i]['p32t1']) {
+						} 
+						if (this.company_name == this.tags_arr[i]['p32t1']) {
 							this.company_country = this.tags_arr[i]['p33t1']
 							this.phone_num = this.tags_arr[i]['p34t1']
 							this.address = this.tags_arr[i]['p30t1']

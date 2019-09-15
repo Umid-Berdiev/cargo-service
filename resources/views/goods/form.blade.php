@@ -20,7 +20,7 @@
 	</div>
 	<div class="form-group col-md-6">
 		<label>Кол. товаров по еденице измерения: *</label>
-		<input type="number" min="0" name="p4t3" value="{{ old("p4t3") ?? $product->p4t3 }}" class="form-control" autocomplete="off" />
+		<input type="number" step="0.001" min="0" name="p4t3" value="{{ old("p4t3") ?? $product->p4t3 }}" class="form-control" autocomplete="off" />
 	</div>
 	<div class="form-group col-md-6">
 		<label>Вес брутто товара (кг): *</label>

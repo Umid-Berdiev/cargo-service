@@ -1,74 +1,73 @@
 @extends('layouts.master')
 
 @section('content')
-	@include('partials.alerts')
-	<div class="col-xs-12 mb-3 ml-3">
-		<h2 class="title float-left">Новый документ</h2>
-		<div class="float-right">
-			{{-- <button target="_blank" href="" class="btn btn-primary">EXPORT XML</button> --}}
+	<div class="row justify-content-between">
+		<div class="col-auto">
+			<h2 class="title">Документ {{ $document->title }} </h2>
+		</div>
+		<div class="col-auto">
+			@include('partials.alerts')
 		</div>  
-		<div class="clearfix"></div>
-	</div>
+	</div>  
+	<div class="clearfix"></div>
 	<hr />
 
-	{{-- <nav class="nav nav-pills mb-3 ml-3">
-		<a href="{{ route('documents.create') }}" class="nav-link active">Транспорт</a>
-		<a href="{{ route('consignments.index', 'id') }}" class="nav-link cargo_tab" id="">Груз</a>
-	</nav> --}}
-
-	<div class="container-fluid">
-		<form action="{{ route('documents.store') }}" method="post" enctype="multipart/form-data">
-			@csrf
-			<div class="row mb-3">
-				<div class="col-md-6">
-					@include('documents.general-info')
-				</div>
-				<div id="transport_info" class="col-md-6">
-					@include('documents.transport_info')
-				</div>
+	<form action="{{ route('documents.store') }}" method="post" enctype="multipart/form-data">
+		@csrf
+		<div class="row mb-3">
+			<div id="general_info" class="col-md-6">
+				@include('documents.general-info')
 			</div>
-			<div class="row mb-3">
-				<div id="carrier_info" class="col-md-6">
-					@include('documents.carrier_details')
-				</div>
-				<div id="driver_info" class="col-md-6">
-					@include('documents.driver_details')
-				</div>
+			<div id="transport_info" class="col-md-6">
+				@include('documents.transport_info')
 			</div>
-			<button type="submit" class="btn btn-primary float-right">Создать</button>
-		</form>
-	</div> 
+		</div>
+		<div class="row mb-3">
+			<div id="carrier_info" class="col-md-6">
+				@include('documents.carrier_details')
+			</div>
+			<div id="driver_info" class="col-md-6">
+				@include('documents.driver_details')
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary float-right mb-3">Создать</button>
+	</form>
 @endsection
 
 @section('scripts')
 	<script>
+		let general_info = new Vue({
+			el: "#general_info",
+
+			data: {
+		    isChecked: false,
+			}
+		});
+
 		let transport_info = new Vue({
 			el: "#transport_info",
 
-			data() {
-				return {
-					countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
-					tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
-					auto_types: {!! json_encode($auto_types, JSON_UNESCAPED_UNICODE) !!},
-					auto_num: {!! json_encode($tags['p15t1']) !!},
-					auto_type: "10",
-					access_num: {!! json_encode($tags['p28t1']) !!},
-					auto_color: {!! json_encode($tags['p24t1']) !!},
-					carcase_num: {!! json_encode($tags['p17t1']) !!},
-					chassis_num: {!! json_encode($tags['p21t1']) !!},
-					country1: "000",
-					country2: "000",
-					country3: "000",
-					made_year: {!! json_encode($tags['p22t1']) !!},
-					marka: {!! json_encode($tags['p11t1']) !!},
-					motor_num: {!! json_encode($tags['p20t1']) !!},
-					motor_size: {!! json_encode($tags['p23t1']) !!},
-					texpass_num: {!! json_encode($tags['p27t1']) !!},
-					trailer_nums: [],
-					input: "",
-					vin_num: {!! json_encode($tags['p19t1']) !!},
-					// A079AY799
-				}
+			data: {
+				countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
+				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
+				auto_types: {!! json_encode($auto_types, JSON_UNESCAPED_UNICODE) !!},
+				auto_num: {!! json_encode($tags['p15t1']) !!},
+				auto_type: "10",
+				access_num: {!! json_encode($tags['p28t1']) !!},
+				auto_color: {!! json_encode($tags['p24t1']) !!},
+				carcase_num: {!! json_encode($tags['p17t1']) !!},
+				chassis_num: {!! json_encode($tags['p21t1']) !!},
+				country1: "000",
+				country2: "000",
+				country3: "000",
+				made_year: {!! json_encode($tags['p22t1']) !!},
+				marka: {!! json_encode($tags['p11t1']) !!},
+				motor_num: {!! json_encode($tags['p20t1']) !!},
+				motor_size: {!! json_encode($tags['p23t1']) !!},
+				texpass_num: {!! json_encode($tags['p27t1']) !!},
+				trailer_nums: [],
+				input: "",
+				vin_num: {!! json_encode($tags['p19t1']) !!},
 			},
 
 			methods: {
@@ -113,23 +112,20 @@
 		let carrier_info = new Vue({
 			el: "#carrier_info",
 
-			data() {
-				return {
-					countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
-					tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
-					carrier_type: 0,
-					passport_s: {!! json_encode($tags['p38t1'][0]) !!},
-					passport_n: {!! json_encode($tags['p38t1'][1]) !!},
-					lastname: {!! json_encode($tags['p35t1']) !!},
-					firstname: {!! json_encode($tags['p36t1']) !!},
-					secondname: {!! json_encode($tags['p37t1']) !!},
-					country: "000",
-					company_name: {!! json_encode($tags['p32t1']) !!},
-					company_country: "000",
-					phone_num: {!! json_encode($tags['p34t1']) !!},
-					address: {!! json_encode($tags['p30t1']) !!},
-					// "TURON TRANSIT LOGISTICS"
-				}
+			data: {
+				countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
+				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
+				carrier_type: 0,
+				passport_s: {!! json_encode($tags['p38t1'][0]) !!},
+				passport_n: {!! json_encode($tags['p38t1'][1]) !!},
+				lastname: {!! json_encode($tags['p35t1']) !!},
+				firstname: {!! json_encode($tags['p36t1']) !!},
+				secondname: {!! json_encode($tags['p37t1']) !!},
+				country: "000",
+				company_name: {!! json_encode($tags['p32t1']) !!},
+				company_country: "000",
+				phone_num: {!! json_encode($tags['p34t1']) !!},
+				address: {!! json_encode($tags['p30t1']) !!},
 			},
 
 			methods: {
@@ -141,7 +137,8 @@
 							this.secondname = this.tags_arr[i]['p37t1']
 							this.country = this.tags_arr[i]['p39t1']
 							this.address = this.tags_arr[i]['p30t1']
-						} else if (this.company_name == this.tags_arr[i]['p32t1']) {
+						}
+						if (this.tags_arr[i]['p32t1'] == this.company_name) {
 							this.company_country = this.tags_arr[i]['p33t1']
 							this.phone_num = this.tags_arr[i]['p34t1']
 							this.address = this.tags_arr[i]['p30t1']
@@ -158,20 +155,17 @@
 		let driver_info = new Vue({
 			el: "#driver_info",
 
-			data() {
-				return {
-					countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
-					tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
-					passport_s: {!! json_encode($tags['p43t1'][0]) !!},
-					passport_n: {!! json_encode($tags['p43t1'][1]) !!},
-					lastname: {!! json_encode($tags['p40t1']) !!},
-					firstname: {!! json_encode($tags['p41t1']) !!},
-					secondname: {!! json_encode($tags['p42t1']) !!},
-					country: "000",
-					address: {!! json_encode($tags['p46t1']) !!},
-					auth_affair: {!! json_encode($tags['p44t1']) !!},
-					// 4732513
-				}
+			data: {
+				countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
+				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
+				passport_s: {!! json_encode($tags['p43t1'][0]) !!},
+				passport_n: {!! json_encode($tags['p43t1'][1]) !!},
+				lastname: {!! json_encode($tags['p40t1']) !!},
+				firstname: {!! json_encode($tags['p41t1']) !!},
+				secondname: {!! json_encode($tags['p42t1']) !!},
+				country: "000",
+				address: {!! json_encode($tags['p46t1']) !!},
+				auth_affair: {!! json_encode($tags['p44t1']) !!},
 			},
 
 			methods: {

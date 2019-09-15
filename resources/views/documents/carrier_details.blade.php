@@ -57,7 +57,7 @@
 			<div class="form-group col-md-12">
 				<label class="font-weight-bold">Полное наименование перевозчика: *</label>
 				<div class="">
-					<input type="text" name="tags[p32t1]" @input="searchItem" v-model="company_name" class="form-control" maxlength="100" />
+					<input type="text" v-model="company_name" @input="searchItem" name="tags[p32t1]" class="form-control" maxlength="100" />
 				</div>
 			</div>
 			<div class="form-group col-md-12">

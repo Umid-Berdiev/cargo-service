@@ -1,61 +1,40 @@
 @extends('layouts.master')
 
 @section('content')
-	<div class="col-sm-12 mb-3">
-		<div class="row justify-content-between">
-			<h2 class="title ml-3">Документ {{ $document->title }}</h2>
-			<div class="col-auto">
-				@include('partials.alerts')
-			</div>
-			<div class="col-auto">
-				<a href="{{ route('consignments.index', $document->id) }}" class="btn btn-light">Вернуться к списку</a>
-				<button id="downloadXml" target="_blank" href="6607" class="btn btn-primary">EXPORT XML</button>
-			</div>
-		</div>	  
-	</div>
-	<div class="clearfix"></div>
+
+	<div class="row justify-content-between">
+		<div class="col-auto">
+			<h2 class="title">Документ {{ $document->title }} </h2>
+		</div>
+		<div class="col-auto">
+			@include('partials.alerts')
+		</div>
+		<div class="col-auto">
+			<a href="{{ route('consignments.index', $document->id) }}" class="border-secondary btn btn-light mr-1">Вернуться к списку</a>
+			<a href="{{ route('goods.create', [$document->id, $consignment->id]) }}" class="border-secondary btn btn-light mr-1">Добавить товар</a>
+			<a href="{{ route('reference_docs.create', [$document->id, $consignment->id]) }}" class="border-secondary btn btn-light">Добавить товаросопроводительных документов</a>
+		</div>
+	</div>	  
 	<hr />
 
-	<nav class="nav nav-pills mb-3 ml-3">
-		<a href="{{ route('goods.create', [$document->id, $consignment->id]) }}" class="nav-link ml-auto mr-1 btn-light" id="">Добавить товар</a>
-		<a href="{{ route('reference_docs.create', [$document->id, $consignment->id]) }}" class="nav-link mr-3 btn-light" id="">Добавить товаросопроводительных документов</a>
-	</nav>
-
-	<div class="container-fluid">
-		<form action="{{ route('consignments.update', ['document' => $document, 'consignment' => $consignment->id]) }}" method="post" enctype="multipart/form-data">
-			@csrf
-			@method('patch')
-			<div class="row mb-3">
-				<div id="consignor" class="col-md-6">
-					@include('consignments.consignor')
-				</div>
-				<div id="consignee" class="col-md-6">
-					@include('consignments.consignee')
-				</div>
-				<button type="submit" class="btn btn-primary ml-auto mt-2 mr-3">Обновить партию</button>
+	<form action="{{ route('consignments.update', ['document' => $document, 'consignment' => $consignment->id]) }}" method="post" enctype="multipart/form-data">
+		@csrf
+		@method('patch')
+		<div class="row mb-3">
+			<div id="consignor" class="col-md-6">
+				@include('consignments.consignor')
 			</div>
-			{{-- <div class="row mb-3">
-				<div class="col">
-					@include('consignments.reference_docs')
-				</div>
-			</div> --}}
-		</form>
-
+			<div id="consignee" class="col-md-6">
+				@include('consignments.consignee')
+			</div>
+			<button type="submit" class="btn btn-primary ml-auto mt-2 mr-3">Обновить партию</button>
+		</div>
 		{{-- <div class="row mb-3">
 			<div class="col">
 				@include('consignments.reference_docs')
 			</div>
-		</div>
-
-		<div class="row mb-3">
-			<div class="col-md-6">
-				@include('goods.create')
-			</div>
-			<div class="col-md-6">
-				@include('goods.index')
-			</div>
 		</div> --}}
-	</div>
+	</form>
 
 @endsection
 
@@ -66,6 +45,7 @@
 
 			data: {
 				countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
+				regions: {!! json_encode($regions, JSON_UNESCAPED_UNICODE) !!},
 				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
 				consignor_type: 0,
 				country1: {!! json_encode($tags['p1t2']) !!},
@@ -95,7 +75,8 @@
 							this.country2 = this.tags_arr[i]['p2t2']
 							this.address1 = this.tags_arr[i]['p3t2']
 							this.address2 = this.tags_arr[i]['p4t2']
-						} else if (this.company_name == this.tags_arr[i]['p6t2']) {
+						}
+						if (this.company_name == this.tags_arr[i]['p6t2']) {
 							this.country3 = this.tags_arr[i]['p7t2']
 							this.phone_num = this.tags_arr[i]['p8t2']
 							this.country1 = this.tags_arr[i]['p1t2']
@@ -118,6 +99,7 @@
 
 			data: {
 				countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
+				regions: {!! json_encode($regions, JSON_UNESCAPED_UNICODE) !!},
 				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
 				consignee_type: 0,
 				country1: {!! json_encode($tags['p14t2']) !!},
@@ -128,7 +110,7 @@
 				has_container: {!! json_encode($tags['p29t2']) !!},
 				isChecked: {!! ($tags['p29t2']) !!} == 1 ? true : false,
 				containers: [
-					{!! json_encode($tags['p30t2']) !!}
+					...{!! json_encode($tags['p30t2']) !!}
 				],
 				input: "",
 				passport_s: {!! json_encode($tags['p24t2'][0]) !!},
@@ -155,7 +137,8 @@
 							this.country2 = this.tags_arr[i]['p16t2']
 							this.address1 = this.tags_arr[i]['p17t2']
 							this.address2 = this.tags_arr[i]['p18t2']
-						} else if (this.company_name == this.tags_arr[i]['p20t2']) {
+						}
+						if (this.company_name == this.tags_arr[i]['p20t2']) {
 							this.country3 = this.tags_arr[i]['p21t2']
 							this.phone_num = this.tags_arr[i]['p22t2']
 							this.consignee_inn = this.tags_arr[i]['p23t2']

@@ -63,8 +63,8 @@ class GoodsController extends Controller
             'p2t3' => $request->p2t3,
             'p3t3' => $request->p3t3,
             'p4t3' => $request->p4t3,
-            'p5t3' => $request->p5t3,
-            'p6t3' => $request->p6t3,
+            'p5t3' => str_replace(',', '.', $request->p5t3),
+            'p6t3' => str_replace(',', '.', $request->p6t3),
             'p7t3' => $request->p7t3,
         );
 
@@ -114,8 +114,8 @@ class GoodsController extends Controller
             'p2t3' => $request->p2t3,
             'p3t3' => $request->p3t3,
             'p4t3' => $request->p4t3,
-            'p5t3' => $request->p5t3,
-            'p6t3' => $request->p6t3,
+            'p5t3' => str_replace(',', '.', $request->p5t3),
+            'p6t3' => str_replace(',', '.', $request->p6t3),
             'p7t3' => $request->p7t3,
         );
 

@@ -47,9 +47,11 @@ class ConsignmentController extends Controller
     $customs = Document::getCustoms();
     $auto_types = Document::auto_types;
     $units = Document::units;
+    $regions = Document::regions;
 
     $docs = Document::where('user_id', Auth::user()->id)->pluck('id')->all();
-    $all_tags = Consignment::where('document_id', $docs)->pluck('tags')->all();
+    
+    $all_tags = Consignment::whereIn('document_id', $docs)->pluck('tags')->all();
     // dd($all_tags);
     $tags_arr = [];
     foreach ($all_tags as $key => $value) {
@@ -59,7 +61,7 @@ class ConsignmentController extends Controller
 
     $products = Goods::where('consignment_id', $consignment->id)->get();
 
-    return view('consignments.create', compact('consignment', 'tags', 'document', 'countries', 'customs', 'auto_types', 'units', 'products', 'tags_arr'));
+    return view('consignments.create', compact('consignment', 'tags', 'document', 'countries', 'customs', 'auto_types', 'units', 'regions', 'products', 'tags_arr'));
   }
 
   /**
@@ -110,6 +112,7 @@ class ConsignmentController extends Controller
     $tags = json_decode('{' . $consignment->tags . '}', true);
     $countries = Document::getCountries();
     $customs = Document::getCustoms();
+    $regions = Document::regions;
 
     $docs = Document::where('user_id', Auth::user()->id)->pluck('id')->all();
     $all_tags = Consignment::where('document_id', $docs)->pluck('tags')->all();
@@ -119,7 +122,7 @@ class ConsignmentController extends Controller
       array_push($tags_arr, $v);
     }
 
-    return view('consignments.edit', compact('document', 'consignment', 'tags', 'countries', 'customs', 'tags_arr'));
+    return view('consignments.edit', compact('document', 'consignment', 'tags', 'countries', 'customs', 'regions', 'tags_arr'));
   }
 
   /**
@@ -158,10 +161,11 @@ class ConsignmentController extends Controller
    */
   public function destroy(Document $document, Consignment $consignment)
   {
-    // dd($consignment);
-    // $data = Consignment::findOrFail($consignment);
-    foreach ($consignment->goods as $key) {
-      $key->delete();
+    foreach ($consignment->goods as $item) {
+      $item->delete();
+    }
+    foreach ($consignment->reference_documents as $item) {
+      $item->delete();
     }
     $consignment->delete();
 
