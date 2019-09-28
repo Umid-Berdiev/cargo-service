@@ -8,6 +8,8 @@ use App\Goods;
 use App\ReferenceDocument;
 use Illuminate\Http\Request;
 use Auth;
+use SimpleXMLElement;
+use ZipArchive;
 
 class DocumentController extends Controller
 {
@@ -178,11 +180,82 @@ class DocumentController extends Controller
   public function data_to_xml(Request $request, $document)
   {
     $data1 = Document::whereId($document)->pluck('tags')->first();
-    $data2 = Consignment::where('document_id', $document)->pluck('tags')->all();
-    $consignments = Consignment::where('document_id', $document)->pluck('id')->all();
-    $data3 = Goods::select('p1t3', 'p2t3', 'p3t3', 'p4t3', 'p5t3')->whereIn('consignment_id', $consignments)->get();
-    $data4 = ReferenceDocument::whereIn('consignment_id', $consignments)->get();
-    dd($data2);
+    $data1 = json_decode("{" . $data1 . "}", true);
+    $data2 = [];
+    $consignments = Consignment::where('document_id', $document)->with(['goods', 'reference_documents'])->get();
+    $data3 = Goods::select('p1t3', 'p2t3', 'p3t3', 'p4t3', 'p5t3', 'p6t3', 'p7t3')->whereIn('consignment_id', $consignments)->get();
+    $data4 = ReferenceDocument::select('p1t4', 'p2t4', 'p3t4', 'p4t4', 'p5t4')->whereIn('consignment_id', $consignments)->get();
+
+    foreach ($consignments as $key => $value) {
+      $temp_data = [];
+      $temp_data += json_decode('{' . $value->tags . '}', true);
+      $goods_data = json_decode($value->goods()->select('p1t3', 'p2t3', 'p3t3', 'p4t3', 'p5t3', 'p6t3', 'p7t3')->get(), true);
+      $ref_data = json_decode($value->reference_documents()->select('p1t4', 'p2t4', 'p3t4', 'p4t4', 'p5t4')->get(), true);
+
+      foreach ($goods_data as $key => $value) {
+        array_push($temp_data, array('T3' => $value));
+      }
+
+      foreach ($ref_data as $key => $value) {
+        array_push($temp_data, array('T4' => $value));
+      }
+      
+      array_push($data2, array('T2' => $temp_data));
+      // $data2 = array_values($data2);
+    }
+
+    $data1 += $data2;
+    // dd($data1);
+
+    function array_to_xml($array, $xml){
+
+      foreach($array as $key => $value) {
+        if(is_array($value)) {
+          if(!is_numeric($key)){
+            $subnode = $xml->addChild("$key");
+            array_to_xml($value, $subnode);
+          } else array_to_xml($value, $xml);
+        } else $xml->addChild("$key",htmlspecialchars("$value"));
+      }
+    }
+
+    //creating object of SimpleXMLElement
+    $xml = new SimpleXMLElement("<?xml version=\"1.0\"?><T1></T1>");
+
+    //function call to convert array to xml
+    array_to_xml($data1, $xml);
+
+    //saving generated xml file
+    $dirXML = 'uploads/';
+    $fileXMLName = 'GruzXML.xml';
+    $fileArchiveName = md5(time().'_'.rand(1000, 1000000).rand(1000, 1000000)).'.zip';
+
+    $xml_file = $xml->asXML($dirXML . $fileXMLName);
+
+    //success and error message based on xml creation
+    if(!$xml_file) echo 'Ошибка при генерации XML файла!';
+
+    if(!is_dir($dirXML.'temp')){
+      mkdir($dirXML.'temp', '777');
+    }
+
+    $archive = $dirXML . 'temp/' . $fileArchiveName;
+  
+    $zip = new ZipArchive;
+    $res = $zip->open($archive, ZipArchive::CREATE);
+    if ($res === true) {
+      $zip->addFile($dirXML . $fileXMLName, $fileXMLName);
+      $zip->close();
+      // echo "OK";
+      header('Content-Type: application/zip');
+      header('Content-Length: ' . filesize($archive));
+      header('Content-Disposition: attachment; filename="'.$fileArchiveName.'"');
+      readfile($archive);
+      unlink($archive);       
+      rmdir($dirXML.'temp');
+    } else {
+      exit('Ошибка архивирования!');
+    }
 
   }
  

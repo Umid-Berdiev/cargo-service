@@ -10,7 +10,11 @@
 		</div>
 		<div class="col-auto">
 			<a href="{{ route('consignments.index', $document->id) }}" class="btn btn-light border-secondary mr-1">Список партии</a>
-			<a href="{{ route('documents.datatoxml', $document->id) }}" class="btn btn-primary">EXPORT TO XML</a>
+			<form action="{{ route('documents.datatoxml', $document->id) }}"  method="post" enctype="multipart/form-data">
+				@csrf
+				<button type="submit" class="btn btn-primary">EXPORT TO XML</button>
+				{{-- <a href="{{ route('documents.datatoxml', $document->id) }}" class="btn btn-primary">EXPORT TO XML</a> --}}
+			</form>
 		</div>  
 	</div>  
 	<div class="clearfix"></div>

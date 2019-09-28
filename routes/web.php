@@ -22,8 +22,7 @@ Route::get('/home', 'HomeController@index')->name('home');
 Auth::routes();
 
 Route::resource('/documents', 'DocumentController');
-Route::get('/documents/{document}/export', 'DocumentController@data_to_xml')->name('documents.datatoxml');
-Route::get('/documents/docdata', 'DocumentController@searchData')->name('documents.docdata');
+Route::post('/documents/{document}/export', 'DocumentController@data_to_xml')->name('documents.datatoxml');
 
 Route::group(['prefix' => '/documents/{document}'], function() {
 	Route::resource('/consignments', 'ConsignmentController', ['except' => ['show']]);
