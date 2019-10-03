@@ -40,7 +40,7 @@
 		<div class="form-inline border-bottom py-2">
 			<div class="form-group mr-4">
 				<label for="date_from" class="font-weight-bold mr-2">С</label>
-				<input type="date" name="tags[date_from]" class="form-control" autocomplete="off" value="{{ $tags['date_from'] }}" />
+				<input type="date" name="date_from" class="form-control" autocomplete="off" value="{{ $document->date_from }}" />
 			</div>
 			<div class="form-group">
 				<label class="font-weight-bold mr-2">По</label>

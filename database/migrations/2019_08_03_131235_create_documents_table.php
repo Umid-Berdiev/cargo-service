@@ -18,6 +18,7 @@ class CreateDocumentsTable extends Migration
             $table->unsignedInteger('user_id');
             $table->string('title');
             $table->text('tags');
+            $table->date('date_from');
             $table->timestamps();
         });
     }

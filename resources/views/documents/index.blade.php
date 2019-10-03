@@ -20,6 +20,7 @@
         <th>#</th>
         <th>Дата создания</th>
         <th>Дата обновления</th>
+        <th>Гос.номер транспорта</th>
         <th>Действия</th>
       </tr>
     </thead>
@@ -27,8 +28,9 @@
       @foreach ($docs as $doc)
         <tr>
           <th>{{ $doc->title }}</th>
-          <td>{{ $doc->created_at }}</td>
-          <td>{{ $doc->updated_at }}</td>
+          <td>{{ $doc->created_at->format('d/m/Y') }}</td>
+          <td>{{ $doc->updated_at->format('d/m/Y') }}</td>
+          <td>{{ json_decode("{" . $doc->tags . "}")->p15t1 }}</td>
           <td>
             <a class="btn btn-sm btn-primary float-left mr-1" href="{{ route('documents.edit', $doc->id) }}"><i class="fas fa-edit"></i></a>
             <form action="{{ route('documents.destroy', $doc->id) }}" method="post">

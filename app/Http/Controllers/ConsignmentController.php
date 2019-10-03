@@ -29,8 +29,8 @@ class ConsignmentController extends Controller
   {
     $consignments = Consignment::where('document_id', request()->document)->get();
     $document = Document::findOrFail(request()->document);
-    $product = new Goods();
-    return view('consignments.index', compact('consignments', 'document', 'product'));
+    // dd(json_decode($consignments{0}->tags, true));
+    return view('consignments.index', compact('consignments', 'document'));
   }
 
   /**
@@ -76,9 +76,12 @@ class ConsignmentController extends Controller
 
     $myStr = json_encode($request->tags, JSON_UNESCAPED_UNICODE);
 
+    $title1 = $request->tags['p6t2'] != null ? $request->tags['p6t2'] : $request->tags['p10t2'] . " " . $request->tags['p11t2'];
+    $title2 = $request->tags['p20t2'] != null ? $request->tags['p20t2'] : $request->tags['p26t2'] . " " . $request->tags['p25t2'];
+
     $data = array(
         'document_id' => $document_id,
-        'title' => $request->tags['p6t2'] . ' - ' . $request->tags['p20t2'],
+        'title' => $title1 . ' - ' . $title2,
         'tags' => trim($myStr, '{}'),
     );
 

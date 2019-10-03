@@ -9,12 +9,12 @@
 			@include('partials.alerts')
 		</div>
 		<div class="col-auto">
-			<a href="{{ route('consignments.index', $document->id) }}" class="btn btn-light border-secondary mr-1">Список партии</a>
-			<form action="{{ route('documents.datatoxml', $document->id) }}"  method="post" enctype="multipart/form-data">
+			<a href="{{ route('consignments.index', $document->id) }}" class="btn btn-light border-secondary">Список партии</a>
+			<form class="btn" action="{{ route('documents.datatoxml', $document->id) }}" method="post" enctype="multipart/form-data">
 				@csrf
 				<button type="submit" class="btn btn-primary">EXPORT TO XML</button>
-				{{-- <a href="{{ route('documents.datatoxml', $document->id) }}" class="btn btn-primary">EXPORT TO XML</a> --}}
 			</form>
+			{{-- <a href="{{ route('documents.datatoxml', $document->id) }}" class="btn btn-primary">EXPORT TO XML</a> --}}
 		</div>  
 	</div>  
 	<div class="clearfix"></div>
@@ -129,7 +129,7 @@
 			data: {
 				countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
 				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
-				carrier_type: 0,
+				carrier_type: {!! json_encode($tags['p31t1']) !!},
 				passport_s: {!! json_encode($tags['p38t1'][0]) !!},
 				passport_n: {!! json_encode($tags['p38t1'][1]) !!},
 				lastname: {!! json_encode($tags['p35t1']) !!},

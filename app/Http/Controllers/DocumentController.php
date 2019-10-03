@@ -77,6 +77,7 @@ class DocumentController extends Controller
         'user_id' => $user_id,
         'title' => '#' . rand(1000, 9999),
         'tags' => trim($myStr, '{}'),
+        'date_from' => $request->date_from,
     );
 
     $document = Document::create($data);

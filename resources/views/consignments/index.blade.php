@@ -21,6 +21,7 @@
 			<tr>
 				<th>Партия</th>
 				<th>Кол. товаров</th>
+				<th>Кол. груз. мест</th>
 				<th>Вес</th>
 				{{-- <th>Кол. груз. мест</th> --}}
 				<th>Стоимость</th>
@@ -32,6 +33,9 @@
 				<tr>
 					<td>{{ $record->title }}</td>
 					<td>{{ $record->goods->count() }}</td>
+					<td>
+				    {{ json_decode("{" . $record->tags . "}")->p15t2 }}
+					</td>
 					<td>
 						<?
 							$weight = 0;
@@ -76,6 +80,16 @@
 						}
 					?>
 					{{ $totalCount }}
+				</th>
+				<th>
+					<?
+						$totalPlace = 0;
+						foreach ($consignments as $record) {
+				    	$totalPlace += json_decode("{" . $record->tags . "}")->p15t2;
+							
+						}
+					?>
+					{{ $totalPlace }}
 				</th>
 				<th>
 					<?
