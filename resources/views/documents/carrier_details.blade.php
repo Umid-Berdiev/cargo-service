@@ -78,19 +78,5 @@
 			<label class="font-weight-bold">Адрес *</label>
 			<textarea class="form-control" name="tags[p30t1]" rows="2" v-model="address"></textarea>
 		</div>
-
-		{{-- <div class="form-inline px-10 mb-10 numberBooksTir" style="display: none;">
-			<label><b>MDP Number</b></label>
-			<div class="clearfix"></div>
-			<div class=" col-md-2">
-				<input type="text" value="" maxlength="3" name="Carrier[mdp_number_first]" class="form-control" autocomplete="false" />
-			</div>
-			<div class=" col-md-2">
-				<input type="text" value="" maxlength="3" name="Carrier[mdp_number_second]" class="form-control" autocomplete="false" />
-			</div>
-			<div class=" col-md-6">
-				<input type="text" maxlength="10" value="" name="Carrier[mdp_number]" class="form-control" autocomplete="false" />
-			</div>
-		</div> --}}
 	</div>
 </div>

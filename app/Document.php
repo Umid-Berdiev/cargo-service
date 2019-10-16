@@ -395,7 +395,7 @@ class Document extends Model
 		];
 	}
 
-	const transportation_type = array(
+	const transportation_types = array(
     1 => 'начала двухсторонней перевозки из Узбекистана',
     2 => 'окончания двухсторонней перевозки в Узбекистан',
     3 => 'транзит',

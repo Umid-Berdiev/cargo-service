@@ -41,6 +41,8 @@
 
 			data: {
 		    isChecked: false,
+		    transportation_types: @json($transportation_types),
+		    transportation_type: {!! json_encode($tags['p7t1']) !!},
 			}
 		});
 
@@ -52,7 +54,7 @@
 				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
 				auto_types: {!! json_encode($auto_types, JSON_UNESCAPED_UNICODE) !!},
 				auto_num: {!! json_encode($tags['p15t1']) !!},
-				auto_type: "10",
+				auto_type: "20",
 				access_num: {!! json_encode($tags['p28t1']) !!},
 				auto_color: {!! json_encode($tags['p24t1']) !!},
 				carcase_num: {!! json_encode($tags['p17t1']) !!},
@@ -94,7 +96,8 @@
 				},
 
 				addInput() {
-					this.trailer_nums.push(this.input)
+					if (!this.trailer_nums.includes(this.input)) this.trailer_nums.push(this.input)
+					else alert("Это номер уже существует!")
 					this.input = ""
 				},
 

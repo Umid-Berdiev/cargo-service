@@ -56,8 +56,9 @@ class DocumentController extends Controller
     // dd(json_encode($countries));
     $customs = Document::getCustoms();
     $auto_types = Document::auto_types;
+    $transportation_types = Document::transportation_types;
     
-    return view('documents.create', compact('document', 'countries', 'customs', 'auto_types', 'tags', 'tags_arr'));
+    return view('documents.create', compact('document', 'countries', 'customs', 'auto_types', 'tags', 'tags_arr', 'transportation_types'));
   }
 
   /**
@@ -119,6 +120,7 @@ class DocumentController extends Controller
     $countries = Document::getCountries();
     $customs = Document::getCustoms();
     $auto_types = Document::auto_types;
+    $transportation_types = Document::transportation_types;
     $tags = json_decode('{' . $document->tags . '}', true);
     // dump($tags);
 
@@ -129,9 +131,9 @@ class DocumentController extends Controller
       array_push($tags_arr, $v);
     }
 
-    // dd(json_encode($tags['p16t1']));
+    // dd($tags['p7t1']);
 
-    return view('documents.edit', compact('document', 'countries', 'customs', 'auto_types', 'tags', 'tags_arr'));
+    return view('documents.edit', compact('document', 'countries', 'customs', 'auto_types', 'tags', 'tags_arr', 'transportation_types'));
   }
 
   /**
@@ -184,35 +186,47 @@ class DocumentController extends Controller
     $data1 = json_decode("{" . $data1 . "}", true);
     $data2 = [];
     $consignments = Consignment::where('document_id', $document)->with(['goods', 'reference_documents'])->get();
-    $data3 = Goods::select('p1t3', 'p2t3', 'p3t3', 'p4t3', 'p5t3', 'p6t3', 'p7t3')->whereIn('consignment_id', $consignments)->get();
-    $data4 = ReferenceDocument::select('p1t4', 'p2t4', 'p3t4', 'p4t4', 'p5t4')->whereIn('consignment_id', $consignments)->get();
 
     foreach ($consignments as $key => $value) {
-      $temp_data = [];
-      $temp_data += json_decode('{' . $value->tags . '}', true);
+      $temp_data = json_decode('{' . $value->tags . '}', true);
       $goods_data = json_decode($value->goods()->select('p1t3', 'p2t3', 'p3t3', 'p4t3', 'p5t3', 'p6t3', 'p7t3')->get(), true);
       $ref_data = json_decode($value->reference_documents()->select('p1t4', 'p2t4', 'p3t4', 'p4t4', 'p5t4')->get(), true);
 
-      foreach ($goods_data as $key => $value) {
+      foreach ($goods_data as $value) {
         array_push($temp_data, array('T3' => $value));
       }
 
-      foreach ($ref_data as $key => $value) {
+      foreach ($ref_data as $value) {
         array_push($temp_data, array('T4' => $value));
       }
       
-      array_push($data2, array('T2' => $temp_data));
-      // $data2 = array_values($data2);
+      $data2[$key]['T2'] = $temp_data;
+    }
+    
+    $docs = [];
+    $consignment_docs = [];
+    
+    ksort($data1, SORT_NATURAL);
+    foreach ($data1 as $key => $value) {
+      is_array($value) ? $docs[$key] = implode(", ", array_filter($value)) : $docs[$key] = $value;
     }
 
-    $data1 += $data2;
-    // dd($data1);
+    foreach ($data2 as $key =>$value) {
+      foreach ($value as $k1 => $v1) {
+        ksort($v1, SORT_NATURAL);
+        foreach ($v1 as $k2 => $v2) {
+          !is_numeric($k2) && is_array($v2) ? $consignment_docs[$key][$k1][$k2] = implode(", ", array_filter($v2)) : $consignment_docs[$key][$k1][$k2] = $v2;
+        }
+      }
+    }
 
-    function array_to_xml($array, $xml){
+    $docs += $consignment_docs;
+    // dd($docs);
 
+    function array_to_xml($array, $xml) {
       foreach($array as $key => $value) {
         if(is_array($value)) {
-          if(!is_numeric($key)){
+          if(!is_numeric($key)) {
             $subnode = $xml->addChild("$key");
             array_to_xml($value, $subnode);
           } else array_to_xml($value, $xml);
@@ -221,10 +235,10 @@ class DocumentController extends Controller
     }
 
     //creating object of SimpleXMLElement
-    $xml = new SimpleXMLElement("<?xml version=\"1.0\"?><T1></T1>");
+    $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding='UTF-8'?><T1></T1>");
 
     //function call to convert array to xml
-    array_to_xml($data1, $xml);
+    array_to_xml($docs, $xml);
 
     //saving generated xml file
     $dirXML = 'uploads/';
@@ -242,18 +256,18 @@ class DocumentController extends Controller
 
     $archive = $dirXML . 'temp/' . $fileArchiveName;
   
-    $zip = new ZipArchive;
-    $res = $zip->open($archive, ZipArchive::CREATE);
+    $zip = new \ZipArchive;
+    $res = $zip->open($archive, \ZipArchive::CREATE | \ZipArchive::OVERWRITE);
     if ($res === true) {
       $zip->addFile($dirXML . $fileXMLName, $fileXMLName);
       $zip->close();
-      // echo "OK";
-      header('Content-Type: application/zip');
-      header('Content-Length: ' . filesize($archive));
-      header('Content-Disposition: attachment; filename="'.$fileArchiveName.'"');
-      readfile($archive);
-      unlink($archive);       
-      rmdir($dirXML.'temp');
+    
+      header('Content-Type: application/zip'); 
+      header('Content-Length: ' . filesize($archive)); 
+      header('Content-Disposition: attachment; filename="'.$fileArchiveName.'"'); 
+      readfile($archive); 
+      unlink($archive); 
+      //rmdir($dirXML.'temp');
     } else {
       exit('Ошибка архивирования!');
     }

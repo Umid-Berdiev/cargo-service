@@ -10,20 +10,20 @@
   <title>{{ config('app.name', 'Laravel') }}</title>
 
   <!-- Latest compiled and minified CSS -->
-	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/css/bootstrap-select.min.css">
+	<link rel="stylesheet" href="{{ asset('css/bootstrap-select.min.css') }}">
 
   <!-- Scripts -->
   <script src="{{ asset('js/app.js') }}"></script>
 
 	<!-- Latest compiled and minified JavaScript -->
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.9/dist/js/bootstrap-select.min.js"></script>
+	<script src="{{ asset('js/bootstrap-select.min.js') }}"></script>
 
   <!-- Fonts -->
-  <link rel="dns-prefetch" href="//fonts.gstatic.com">
-  <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
+  {{-- <link rel="dns-prefetch" href="//fonts.gstatic.com"> --}}
+  {{-- <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet"> --}}
 
   <!-- Fontawesome -->
-  <script src="https://kit.fontawesome.com/dded8d9ada.js"></script>
+  <script src="{{ asset('js/font-awesome.js') }}"></script>
 
   <!-- Styles -->
   <link href="{{ asset('css/app.css') }}" rel="stylesheet">
@@ -146,28 +146,6 @@
 		  </div>
 		</div>
 	</div>
-
-	<script type="text/javascript">
-		function	displayNoneBlock(item) {
-			var x = document.getElementsByClassName(item);
-			for (item of x) {
-				item.style.display = item.style.display === 'none' ? '' : 'none';
-			}
-	 	}
-
-		function onSelectType($select, $type_1, $type_2){
-			if ($select.val() == $type_1) {
-				$('.individual').removeClass('d-none');
-				$('.legal').addClass('d-none');
-				// $('.legal_uz').addClass('d-none');
-			}else{
-				// $('.legal_uz').removeClass('d-none');
-				$('.individual').addClass('d-none');
-				$('.legal').removeClass('d-none');
-			}
-		}
-
-	</script>
 
 	@yield('scripts')
 

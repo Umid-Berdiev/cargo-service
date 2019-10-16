@@ -48,6 +48,12 @@
 			</div>
 		</div>
 		<div class="form-group mt-2">
+			<label class="font-weight-bold">Вид перевозки:</label>
+			<select class="selectpicker" data-width="100%" required v-model="transportation_type" data-live-search="true" name="tags[p7t1]">
+				<option v-for="(value, key) in transportation_types" :value="key" v-text="key + ' ' + value"></option>
+			</select>
+		</div>
+		<div class="form-group mt-2">
 			<label class="font-weight-bold" for="general_customs_to">Таможенный орган в который ожидается прибытие: *</label>
 			<select class="selectpicker" data-width="100%" data-live-search="true" name="tags[p8t1]">
 				@foreach ($customs as $key => $value)
