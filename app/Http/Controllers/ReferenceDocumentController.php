@@ -60,6 +60,7 @@ class ReferenceDocumentController extends Controller
         // $image->move(public_path('images'), $new_image_name);
 
         $img = file_get_contents($request->file('p5t4'));
+        $img_name = $request->file('p5t4')->getClientOriginalName();
         $base64 = base64_encode($img);
 
         $data = array(
@@ -67,7 +68,7 @@ class ReferenceDocumentController extends Controller
             'p1t4' => $request->p1t4,
             'p2t4' => $request->p2t4,
             'p3t4' => $request->p3t4,
-            'p4t4' => $request->p4t4,
+            'p4t4' => $img_name,
             'p5t4' => $base64,
         );
 

@@ -4,11 +4,11 @@
 	</div>
 	<div class="card-body">
 		<div class="form-row border-bottom">
-			<div class="form-group col-6">
-				<label for="number_auto" class="font-weight-bold">Номер автотранспортного средства:</label>
+			<div class="form-group col-5">
+				<label for="number_auto" class="font-weight-bold">Номер автотранспорта:</label>
 				<input type="text" class="form-control" v-model="auto_num" @input="searchItem" name="tags[p15t1]" maxlength="20" />
 			</div>
-			<div class="form-group col-6">
+			<div class="form-group col-7">
 				<label class="font-weight-bold">Тип:</label>
 				<select class="selectpicker" data-width="100%" v-model="auto_type" data-live-search="true" name="tags[p12t1]">
 					<option v-for="(value, key) in auto_types" :value="key" v-text="key + ' ' + value"></option>
@@ -16,13 +16,13 @@
 			</div>
 		</div>
 		<div class="form-row border-bottom pb-1">
-			<div class="form-group col-6">
+			<div class="form-group col-7">
 				<label class="font-weight-bold">Страна регистрации:</label>
 				<select class="selectpicker" data-width="100%" v-model="country1" data-live-search="true" name="tags[p14t1]">
 					<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
 				</select>
 			</div>
-			<div class="form-group col-6">
+			<div class="form-group col-5">
 				<label class="font-weight-bold">Тип двигателя:</label>
 				<select name="tags[p18t1]" class="custom-select">
 					<option value="0" {{ $tags['p18t1'] == 0 ? 'selected' : '' }}>дизель</option>
@@ -31,11 +31,11 @@
 			</div>
 		</div>
 		<div class="form-row border-bottom pb-1">
-			<div class="form-group col-6">
+			<div class="form-group col-7">
 				<label class="font-weight-bold">Марка, модель:</label>
 					<input type="text" v-model="marka" value="" name="tags[p11t1]" maxlength="100" class="form-control" />
 				</div>
-			<div class="form-group col-6">
+			<div class="form-group col-5">
 				<label class="font-weight-bold">Т/с перемещается как товар:</label>
 				<select name="tags[p13t1]" class="custom-select">
 					<option value="0" {{ $tags['p13t1'] == 0 ? 'selected' : '' }}>Нет</option>
@@ -72,13 +72,17 @@
 			</div>
 		</div>
 		<div class="form-row">
-			<div class="form-group col-6">
+			<div class="form-group col-4">
 				<label class="font-weight-bold">Номер шасси:</label>
 				<input type="text" maxlength="20" v-model="chassis_num" value="" name="tags[p21t1]" class="form-control">
 			</div>
-			<div class="form-group col-6">
+			<div class="form-group col-4">
 				<label class="font-weight-bold">Номер кузова:</label>
 				<input type="text" maxlength="20" v-model="carcase_num" value="" name="tags[p17t1]" class="form-control" />
+			</div>
+			<div class="form-group col-4">
+				<label class="font-weight-bold">Номер разрешения:</label>
+				<input type="text" value="" maxlength="10" v-model="access_num" name="tags[p28t1]" class="form-control" />
 			</div>
 		</div>
 		<div class="form-row border-bottom">
@@ -99,26 +103,22 @@
 	      </div>
 			</div>
 			<div class="form-group col-6">
-				<label class="font-weight-bold">Номер разрешения:</label>
-				<input type="text" value="" maxlength="10" v-model="access_num" name="tags[p28t1]" class="form-control" />
+				<label class="font-weight-bold">Идент.код суммы обеспечении:</label>
+				<input type="text" value="" maxlength="9" v-model="collateral_id" name="tags[p29t1]" class="form-control" />
 			</div>
 		</div>
 		<div class="form-row">
 			<div class="form-group col-6">
-				<label class="font-weight-bold" for="number_auto">Страна начала перевозки:</label>
+				<label class="font-weight-bold">Регион пребывания:</label>
 				<div class="">
-					<select class="selectpicker" data-width="100%" v-model="country2" data-live-search="true" name="tags[p5t1]">
-						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
+					<select class="selectpicker" v-model="address1" required data-width="100%" data-live-search="true" name="tags[p25t1]">
+						<option v-for="(value, key) in regions" :value="key" :key="key" v-text="key + ' ' + value"></option>
 					</select>
 				</div>
 			</div>
 			<div class="form-group col-6">
-				<label class="font-weight-bold" for="number_auto">Страна окончания перевозки:</label>
-				<div class="">
-					<select class="selectpicker" data-width="100%" v-model="country3" data-live-search="true" name="tags[p6t1]">
-						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
-					</select>
-				</div>
+				<label class="font-weight-bold">Цель приезда:</label>
+				<input type="text" value="" maxlength="60" v-model="arrival_purpose" name="tags[p26t1]" class="form-control" />
 			</div>
 		</div>
 	</div>

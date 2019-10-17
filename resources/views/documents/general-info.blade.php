@@ -53,6 +53,24 @@
 				<option v-for="(value, key) in transportation_types" :value="key" v-text="key + ' ' + value"></option>
 			</select>
 		</div>
+		<div class="form-row">
+			<div class="form-group col-6">
+				<label class="font-weight-bold" for="number_auto">Страна начала перевозки:</label>
+				<div class="">
+					<select class="selectpicker" data-width="100%" v-model="country1" data-live-search="true" name="tags[p5t1]">
+						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
+					</select>
+				</div>
+			</div>
+			<div class="form-group col-6">
+				<label class="font-weight-bold" for="number_auto">Страна окончания перевозки:</label>
+				<div class="">
+					<select class="selectpicker" data-width="100%" v-model="country2" data-live-search="true" name="tags[p6t1]">
+						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
+					</select>
+				</div>
+			</div>
+		</div>
 		<div class="form-group mt-2">
 			<label class="font-weight-bold" for="general_customs_to">Таможенный орган в который ожидается прибытие: *</label>
 			<select class="selectpicker" data-width="100%" data-live-search="true" name="tags[p8t1]">

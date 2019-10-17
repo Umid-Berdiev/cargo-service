@@ -71,12 +71,9 @@
                     <td>{{ $item->p3t4 }}</td> 
                     <td>{{ $item->p4t4 }}</td> 
                     <td>
-                      {{-- <img src="{{ asset('images/' . base64_decode($item->p5t4)) }}" alt="image" width="100px" /> --}}
                       <img src="{{ 'data:image/png/jpeg;base64,' . $item->p5t4 }}" alt="image" width="100px" />
                     </td>
                     <td>
-                      {{-- <a class="btn btn-sm btn-primary float-left py-1 mr-1" href="{{ route('reference_docs.edit', [request()->route('document'), request()->route('consignment'), $item->id]) }}">
-                        <i class="fas fa-edit"></i></a> --}}
                       <form action="{{ route('reference_docs.destroy', [request()->route('document'), request()->route('consignment'), $item->id]) }}" method="post">
                         @csrf
                         @method('delete')

@@ -40,9 +40,12 @@
 			el: "#general_info",
 
 			data: {
-		    isChecked: false,
+				countries: @json($countries),
+				country1: "000",
+		    country2: "000",
+				isChecked: false,
 		    transportation_types: @json($transportation_types),
-		    transportation_type: {!! json_encode($tags['p7t1']) !!},
+		    transportation_type: @json($tags['p7t1']),
 			}
 		});
 
@@ -51,6 +54,7 @@
 
 			data: {
 				countries: {!! json_encode($countries, JSON_UNESCAPED_UNICODE) !!},
+				regions: @json($regions),
 				tags_arr: {!! json_encode($tags_arr, JSON_UNESCAPED_UNICODE) !!},
 				auto_types: {!! json_encode($auto_types, JSON_UNESCAPED_UNICODE) !!},
 				auto_num: {!! json_encode($tags['p15t1']) !!},
@@ -60,8 +64,6 @@
 				carcase_num: {!! json_encode($tags['p17t1']) !!},
 				chassis_num: {!! json_encode($tags['p21t1']) !!},
 				country1: "000",
-				country2: "000",
-				country3: "000",
 				made_year: {!! json_encode($tags['p22t1']) !!},
 				marka: {!! json_encode($tags['p11t1']) !!},
 				motor_num: {!! json_encode($tags['p20t1']) !!},
@@ -70,6 +72,9 @@
 				trailer_nums: [],
 				input: "",
 				vin_num: {!! json_encode($tags['p19t1']) !!},
+				address1: @json($tags['p25t1']),
+				arrival_purpose: @json($tags['p26t1']),
+				collateral_id: @json($tags['p29t1']),
 			},
 
 			methods: {
