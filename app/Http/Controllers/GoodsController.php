@@ -26,12 +26,7 @@ class GoodsController extends Controller
      */
     public function index()
     {
-        // $products = Goods::where('consignment_id', request()->consignment)->get();
-        // $product = new Goods();
-        // $units = Document::units;
-        // $currencies = Document::currencies;
-
-        // return view('goods.index', compact('products', 'product', 'units', 'currencies'));
+        // 
     }
 
     /**

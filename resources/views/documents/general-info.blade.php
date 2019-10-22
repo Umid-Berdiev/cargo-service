@@ -17,7 +17,7 @@
 		</div>
 		<div class="form-row border-bottom">
 			<div class="form-group col-md-6">
-				<label for="customSwitch1" class="font-weight-bold">Перевозка с использованием книжек МДП? *</label>
+				<label for="customSwitch1" class="font-weight-bold">Перевозка с использованием книжек МДП?</label>
 				<div class="custom-control custom-switch">
 					<input id="customSwitch1" v-model="isChecked" type="checkbox" class="custom-control-input" />
 					<label for="customSwitch1" class="custom-control-label"></label>
@@ -26,7 +26,7 @@
 
 			</div>
 			<div v-show="isChecked" class="form-group col-md-6">
-				<label>NUMBER_BOOKS_TIR: *</label>
+				<label>NUMBER_BOOKS_TIR:</label>
 				<div class="row">
 					<div class="col-3">
 						<input type="text" maxlength="2" name="tags[p3t1]" class="form-control" value="{{ $tags['p3t1'] }}" />
@@ -40,11 +40,11 @@
 		<div class="form-inline border-bottom py-2">
 			<div class="form-group mr-4">
 				<label for="date_from" class="font-weight-bold mr-2">С</label>
-				<input type="date" name="date_from" class="form-control" autocomplete="off" value="{{ $document->date_from }}" />
+				<input type="date" name="date_from" class="form-control" autocomplete="off" value="{{ $document->date_from ?? date("Y-m-d") }}" />
 			</div>
 			<div class="form-group">
 				<label class="font-weight-bold mr-2">По</label>
-				<input type="date" name="tags[p10t1]" class="form-control" autocomplete="off" value="{{ $tags['p10t1'] }}" />
+				<input type="date" name="tags[p10t1]" class="form-control" autocomplete="off" value="{{ $tags['p10t1'] ?? date('Y-m-d', mktime(0, 0, 0, date('m'), date('d') + 10, date('Y'))) }}" />
 			</div>
 		</div>
 		<div class="form-group mt-2">
@@ -72,7 +72,7 @@
 			</div>
 		</div>
 		<div class="form-group mt-2">
-			<label class="font-weight-bold" for="general_customs_to">Таможенный орган в который ожидается прибытие: *</label>
+			<label class="font-weight-bold" for="general_customs_to">Таможенный орган в который ожидается прибытие:</label>
 			<select class="selectpicker" data-width="100%" data-live-search="true" name="tags[p8t1]">
 				@foreach ($customs as $key => $value)
 					<option data-tokens="{{ $key }}" value="{{ $key }}" {{ $key == $tags['p8t1'] ? 'selected' : '' }}>{{ $key . ' ' . $value }}</option>
@@ -80,7 +80,7 @@
 			</select>
 		</div>	
 		<div class="form-group">
-			<label class="font-weight-bold" for="general_customs_from">Таможенный орган назначения: *</label>
+			<label class="font-weight-bold" for="general_customs_from">Таможенный орган назначения:</label>
 			<select class="selectpicker" data-width="100%" data-live-search="true" name="tags[p9t1]">
 				@foreach ($customs as $key => $value)
 					<option data-tokens="{{ $key }}" value="{{ $key }}" {{ $key == $tags['p9t1'] ? 'selected' : '' }}>{{ $key . ' ' . $value }}</option>

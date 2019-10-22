@@ -29,7 +29,7 @@ class ConsignmentController extends Controller
   {
     $consignments = Consignment::where('document_id', request()->document)->get();
     $document = Document::findOrFail(request()->document);
-    // dd(json_decode($consignments{0}->tags, true));
+
     return view('consignments.index', compact('consignments', 'document'));
   }
 
@@ -52,7 +52,6 @@ class ConsignmentController extends Controller
     $docs = Document::where('user_id', Auth::user()->id)->pluck('id')->all();
     
     $all_tags = Consignment::whereIn('document_id', $docs)->pluck('tags')->all();
-    // dd($all_tags);
     $tags_arr = [];
     foreach ($all_tags as $key => $value) {
       $v = json_decode("{" . $value . "}");
@@ -86,9 +85,6 @@ class ConsignmentController extends Controller
     );
 
     $consignment = Consignment::create($data);
-    // $consignments = Consignment::where('document_id', $document_id)->get();
-    // $document = Document::findOrFail($document_id);
-    // $tags = json_decode('{' . $consignment->tags . '}', true);
     
     return redirect(route('consignments.edit', [$request->document, $consignment->id]))->with('success', 'Партия успешно добавлена!');
   }
@@ -137,9 +133,6 @@ class ConsignmentController extends Controller
    */
   public function update(Request $request, Document $document, Consignment $consignment)
   {
-    // dd($consignment);
-    // $document_id = $request->route('document');
-
     $myStr = json_encode($request->tags, JSON_UNESCAPED_UNICODE);
 
     $data = array(
@@ -147,11 +140,7 @@ class ConsignmentController extends Controller
         'tags' => trim($myStr, '{}'),
     );
 
-    // $consignment = Consignment::findOrFail($consignment_id);
     $consignment->update($data);
-    // $consignments = Consignment::where('document_id', $document_id)->get();
-    // $document = Document::findOrFail($document_id);
-    // $tags = json_decode('{' . $consignment->tags . '}', true);
     
     return back()->with('success', 'Партия успешно обновлена!');
   }

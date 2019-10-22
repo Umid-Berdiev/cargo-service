@@ -12,7 +12,7 @@
 				</select>
 			</div>
 			<div class="col-6">
-				<label class="font-weight-bold">Страна назначения груза: *</label>
+				<label class="font-weight-bold">Страна назначения груза:</label>
 				<div class="">
 					<select class="selectpicker" v-model="country1" data-width="100%" data-live-search="true" name="tags[p14t2]">
 						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
@@ -25,7 +25,7 @@
 		<div v-show="consignee_type == 1" class="">
 			<div class="form-row">
 				<div class="col-6">
-					<label class="font-weight-bold">Серия и № паспорта: *</label>
+					<label class="font-weight-bold">Серия и № паспорта:</label>
 					<div class="form-row">
 						<div class="col-3">
 							<input type="text" maxlength="2" v-model="passport_s" name="tags[p24t2][0]" class="form-control">
@@ -36,13 +36,13 @@
 					</div>
 				</div>
 				<div class="col-6">
-					<label class="font-weight-bold">Имя: *</label>
+					<label class="font-weight-bold">Имя:</label>
 					<input type="text" name="tags[p26t2]" maxlength="32" v-model="firstname" class="form-control" />
 				</div>
 			</div>
 			<div class="form-row">
 				<div class="col-6 mt-2">
-					<label class="font-weight-bold">Фамилия: *</label>
+					<label class="font-weight-bold">Фамилия:</label>
 					<input type="text" name="tags[p25t2]" maxlength="32" v-model="lastname" class="form-control">
 				</div>
 				<div class="col-6 mt-2">
@@ -51,7 +51,7 @@
 				</div>
 			</div>
 			<div class="form-group mt-2">
-				<label class="font-weight-bold">Гражданство: *</label>
+				<label class="font-weight-bold">Гражданство:</label>
 				<div class="">
 					<select class="selectpicker" v-model="country4" data-live-search="true" data-width="100%" name="tags[p28t2]">
 						<option v-for="(value, key) in countries" :selected="key" :value="key" :key="key" v-text="key + ' ' + value"></option>
@@ -63,13 +63,13 @@
 		{{-- Юридическое лицо --}}
 		<div v-show="consignee_type == 0" class="">
 			<div class="form-group">
-				<label class="font-weight-bold">Наименование грузополучателя: *</label>
+				<label class="font-weight-bold">Наименование грузополучателя:</label>
 				<div class="">
 					<input type="text" name="tags[p20t2]" v-model="company_name" @input="searchItem" class="form-control" maxlength="100" />
 				</div>
 			</div>
 			<div class="form-group">
-				<label class="font-weight-bold">Страна грузополучателя: *</label>
+				<label class="font-weight-bold">Страна грузополучателя:</label>
 				<div class="">
 					<select class="selectpicker" v-model="country3" data-width="100%" data-live-search="true" name="tags[p21t2]">
 						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
@@ -78,11 +78,11 @@
 			</div>
 			<div class="form-row">
 				<div class="form-group col-sm-6">
-					<label class="font-weight-bold">Телефон грузополучателя: *</label>
+					<label class="font-weight-bold">Телефон грузополучателя:</label>
 					<input type="tel" v-model="phone_num" maxlength="30" name="tags[p22t2]" class="form-control" />
 				</div>
 				<div class="form-group col-sm-6">
-					<label class="font-weight-bold">ИНН получателя: *</label>
+					<label class="font-weight-bold">ИНН получателя:</label>
 					<input type="text" v-model="consignee_inn" maxlength="9" name="tags[p23t2]" class="form-control" />
 				</div>
 			</div>
@@ -90,20 +90,20 @@
 
 		<div class="form-row">
 			<div class="col-9">
-				<label class="font-weight-bold">Государство: *</label>
+				<label class="font-weight-bold">Государство:</label>
 				<select class="selectpicker" v-model="country2" data-width="100%" data-live-search="true" name="tags[p16t2]">
 					<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
 					
 				</select>
 			</div>
 			<div class="col-3">
-				<label class="font-weight-bold">Кол-во мест: *</label>
+				<label class="font-weight-bold">Кол-во мест:</label>
 				<input type="text" name="tags[p15t2]" v-model="kolich_mest" class="form-control" maxlength="12" />
 			</div>
 		</div>
 		<div class="form-row mt-2">
 			<div class="form-group col-6">
-				<label class="font-weight-bold">Область/город: *</label>
+				<label class="font-weight-bold">Область/город:</label>
 				<div v-if="country2 == 860" class="">
 					<select class="selectpicker" v-model="address1" required data-width="100%" data-live-search="true" name="tags[p17t2]">
 						<option v-for="(value, key) in regions" :value="key" :key="key" v-text="key + ' ' + value"></option>
@@ -113,13 +113,13 @@
 				<input v-else type="text" name="tags[p17t2]" v-model="address1" class="form-control" />
 			</div>
 			<div class="form-group col-6">
-				<label class="font-weight-bold">Район, улица и номер дома: *</label>
+				<label class="font-weight-bold">Район, улица и номер дома:</label>
 				<textarea class="form-control" name="tags[p18t2]" v-model="address2" rows="2"></textarea>
 			</div>
 		</div>
 		<div class="form-row border-bottom">
 			<div class="form-group col-md-6">
-				<label for="customSwitch2" class="font-weight-bold">Признак контейнерной перевозки: *</label>
+				<label for="customSwitch2" class="font-weight-bold">Признак контейнерной перевозки:</label>
 				<div class="custom-control custom-switch">
 					<input id="customSwitch2" v-model="isChecked" type="checkbox" class="custom-control-input" />
 					<label for="customSwitch2" class="custom-control-label"></label>
@@ -129,7 +129,7 @@
 			</div>
 			<div v-show="isChecked" class="form-group col-md-6">
         <div class="control-group">
-          <label class="font-weight-bold">Добавить номер контейнера: *</label>
+          <label class="font-weight-bold">Добавить номер контейнера:</label>
           
           <div class="input-group">
 						<input v-model="input" name="tags[p30t2][]" type="text" maxlength="10" class="form-control" />

@@ -112,27 +112,7 @@ class ReferenceDocumentController extends Controller
      */
     public function update(Request $request, ReferenceDocument $referenceDocument)
     {
-        // if($request->file('p5t4') != '') {
-        //   $request->validate([
-        //     'p5t4' => 'required|image|max:2048',
-        //   ]);
-        // }
-
-        // $img = file_get_contents($request->file('p5t4'));
-        // $base64 = base64_encode($img);
-
-        // $data = array(
-        //     'consignment_id' => $request->route('consignment'),
-        //     'p1t4' => $request->p1t4,
-        //     'p2t4' => $request->p2t4,
-        //     'p3t4' => $request->p3t4,
-        //     'p4t4' => $request->p4t4,
-        //     'p5t4' => $base64,
-        // );
-
-        // ReferenceDocument::create($data);
-
-        // return redirect(route('reference_docs.create', [request('document'), request('consignment')]))->with('success', 'Файл успешно обновлено!');
+        // 
     }
 
     /**

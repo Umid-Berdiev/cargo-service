@@ -53,7 +53,6 @@ class DocumentController extends Controller
 
     $tags = json_decode($document->tags);
     $countries = Document::getCountries();
-    // dd(json_encode($countries));
     $customs = Document::getCustoms();
     $auto_types = Document::auto_types;
     $transportation_types = Document::transportation_types;
@@ -77,7 +76,7 @@ class DocumentController extends Controller
 
     $data = array(
         'user_id' => $user_id,
-        'title' => '#' . rand(1000, 9999),
+        'title' => '#' . rand(1000, 9999) . date('Y-m-d'),
         'tags' => trim($myStr, '{}'),
         'date_from' => $request->date_from,
     );
@@ -221,7 +220,6 @@ class DocumentController extends Controller
     }
 
     $docs['T1'] += $consignment_docs;
-    // dd($docs);
 
     function array_to_xml($array, $xml) {
       foreach($array as $key => $value) {
@@ -235,7 +233,7 @@ class DocumentController extends Controller
     }
 
     //creating object of SimpleXMLElement
-    $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding='UTF-8'?><GruzXML><version>\"1.0\"</version></GruzXML>");
+    $xml = new SimpleXMLElement("<?xml version=\"1.0\" encoding='UTF-8'?><GruzXML><version>1.0</version></GruzXML>");
 
     //function call to convert array to xml
     array_to_xml($docs, $xml);

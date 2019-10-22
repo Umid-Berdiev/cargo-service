@@ -11,6 +11,10 @@ class Goods extends Model
 	public function consignment()
   {
   	return $this->belongsTo('App\Consignment');
-  }    
+  }
+
+  const TNVEDCODE = [
+  	// 
+  ];
 
 }

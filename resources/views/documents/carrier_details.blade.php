@@ -16,7 +16,7 @@
 		{{-- Физическое лицо --}}
 		<div v-show="carrier_type == 1" class="form-row">
 			<div class="form-group col-md-6">
-				<label class="font-weight-bold">Серия и № паспорта: *</label>
+				<label class="font-weight-bold">Серия и № паспорта:</label>
 				<div class="form-row">
 					<div class="col-md-3">
 						<input type="text" maxlength="2" v-model="passport_s" name="tags[p38t1][0]" class="form-control">
@@ -28,12 +28,12 @@
 			</div>
 
 			<div class="form-group col-md-6">
-				<label class="font-weight-bold">Фамилия: *</label>
+				<label class="font-weight-bold">Фамилия:</label>
 				<input type="text" maxlength="32" name="tags[p35t1]" v-model="lastname" class="form-control" />
 			</div>
 
 			<div class="form-group col-md-6">
-				<label class="font-weight-bold">Имя: *</label>
+				<label class="font-weight-bold">Имя:</label>
 				<input type="text" maxlength="32" name="tags[p36t1]" v-model="firstname" class="form-control" />
 			</div>
 
@@ -43,7 +43,7 @@
 			</div>
 
 			<div class="form-group col-md-12">
-				<label class="font-weight-bold" for="">Гражданство: *</label>
+				<label class="font-weight-bold" for="">Гражданство:</label>
 				<div class="">
 					<select class="selectpicker" data-width="100%" v-model="country" data-live-search="true" name="tags[p39t1]">
 						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
@@ -55,13 +55,13 @@
 		{{-- Юридическое лицо --}}
 		<div v-show="carrier_type == 0" class="form-row">
 			<div class="form-group col-md-12">
-				<label class="font-weight-bold">Полное наименование перевозчика: *</label>
+				<label class="font-weight-bold">Полное наименование перевозчика:</label>
 				<div class="">
 					<input type="text" v-model="company_name" @input="searchItem" name="tags[p32t1]" class="form-control" maxlength="100" />
 				</div>
 			</div>
 			<div class="form-group col-md-12">
-				<label class="font-weight-bold">Страна: *</label>
+				<label class="font-weight-bold">Страна:</label>
 				<div class="">
 					<select class="selectpicker" v-model="company_country" data-width="100%" data-live-search="true" name="tags[p33t1]">
 						<option v-for="(value, key) in countries" :value="key" :key="key" v-text="key + ' ' + value"></option>
@@ -69,13 +69,13 @@
 				</div>
 			</div>
 			<div class="form-group col-md-12">
-				<label class="font-weight-bold">Телефон: *</label>
+				<label class="font-weight-bold">Телефон:</label>
 				<input type="tel" maxlength="30" name="tags[p34t1]" v-model="phone_num" class="form-control" />
 			</div>
 		</div>
 
 		<div class="form-group">
-			<label class="font-weight-bold">Адрес *</label>
+			<label class="font-weight-bold">Адрес:</label>
 			<textarea class="form-control" name="tags[p30t1]" rows="2" v-model="address"></textarea>
 		</div>
 	</div>
