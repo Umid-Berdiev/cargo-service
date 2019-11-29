@@ -22,8 +22,7 @@
 				<th>Партия</th>
 				<th>Кол. товаров</th>
 				<th>Кол. груз. мест</th>
-				<th>Вес</th>
-				{{-- <th>Кол. груз. мест</th> --}}
+				<th>Вес брутто(кг)</th>
 				<th>Стоимость</th>
 				<th>Действия</th>
 			</tr>
@@ -34,26 +33,30 @@
 					<td>{{ $record->title }}</td>
 					<td>{{ $record->goods->count() }}</td>
 					<td>
-				    {{ json_decode("{" . $record->tags . "}")->p15t2 }}
+				    {{ (int)json_decode("{" . $record->tags . "}")->p15t2 }}
 					</td>
 					<td>
-						<?
-							$weight = 0;
-							foreach ($record->goods as $key) {
-								$weight += $key->p5t3;
-							}
-						?>
-						{{ $weight }}
+						{{ 
+							array_reduce(json_decode($record->goods), function($acc, $item) {
+								return $acc += $item->p5t3;
+							}) 
+						}}
 					</td>				
-					{{-- <td>3431</td> --}}
 					<td>
 						<?
-							$price = 0;
-							foreach ($record->goods as $key) {
-								$price += $key->p6t3;
+							foreach ($currencies as $key => $value) {
+								$arr = [];
+								foreach ($record->goods as $item) {
+									if ($key == $item->p7t3) array_push($arr, $item->p6t3);
+								}
+								if (count($arr) > 0) {
+									$v = array_reduce($arr, function($acc, $item) {
+										return $acc += $item;
+									});
+									echo $v . ' ' . $value;
+								}
 							}
 						?>
-						{{ $price }}
 					</td>
 					<td>
 						<a class="btn btn-sm btn-primary float-left mr-1" href="{{ route('consignments.edit', ['document' => $document->id, 'consignment' => $record->id]) }}">
@@ -102,17 +105,24 @@
 					?>
 					{{ $totalWeight }}
 				</th>
-				{{-- <th>3431</th> --}}
 				<th>
 					<?
-						$totalValue = 0;
-						foreach ($consignments as $party) {
-							foreach ($party->goods as $product) {
-								$totalValue += $product->p6t3;
+						foreach ($currencies as $key => $value) {
+							$arr = [];
+							$totalValue = 0;
+							foreach ($consignments as $party) {
+								foreach ($party->goods as $item) {
+									if ($key == $item->p7t3) array_push($arr, $item->p6t3);
+								}
+								if (count($arr) > 0) {
+									$totalValue = array_reduce($arr, function($acc, $item) {
+										return $acc += $item;
+									});
+								}
 							}
+							if($totalValue) echo $totalValue . ' ' . $value . '<br />';
 						}
 					?>
-					{{ $totalValue }}
 				</th>
 				<th></th>
 			</tr>

@@ -63,7 +63,7 @@
 						$method = '';
 						if (request()->route()->named('goods.edit')) {
 							$action = route('goods.update', [request()->route('document'), request()->route('consignment'), request()->route('goods')]);
-								$method = method_field('patch');
+							$method = method_field('patch');
 				    } else {
 							$action = route('goods.store', [request()->route('document'), request()->route('consignment')]);
 							$method = "";
@@ -72,7 +72,7 @@
 					<form action="{{ $action }}" method="post">
 						{{ $method }}
 						@include('goods.form')
-						<button type="submit" class="btn btn-primary ml-auto">Добавить товар</button>
+						<button type="submit" class="btn btn-primary ml-auto">Сохранить</button>
 						@if (request()->route()->named('goods.edit'))
 							<a href="{{ route('goods.create', [request()->route('document'), request()->route('consignment')]) }}" type="submit" class="btn btn-secondary">Отменить</a>
 						@endif

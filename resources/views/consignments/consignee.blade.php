@@ -98,7 +98,7 @@
 			</div>
 			<div class="col-3">
 				<label class="font-weight-bold">Кол-во мест:</label>
-				<input type="text" name="tags[p15t2]" v-model="kolich_mest" class="form-control" maxlength="12" />
+				<input type="number" name="tags[p15t2]" v-model="kolich_mest" class="form-control" maxlength="12" />
 			</div>
 		</div>
 		<div class="form-row mt-2">

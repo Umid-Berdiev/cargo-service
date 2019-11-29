@@ -29,8 +29,9 @@ class ConsignmentController extends Controller
   {
     $consignments = Consignment::where('document_id', request()->document)->get();
     $document = Document::findOrFail(request()->document);
+    $currencies = Document::currencies;
 
-    return view('consignments.index', compact('consignments', 'document'));
+    return view('consignments.index', compact('consignments', 'document', 'currencies'));
   }
 
   /**

@@ -32,7 +32,7 @@ class DocumentController extends Controller
   public function index()
   {
     // dd(Auth::user()->id);
-    $docs = Document::where('user_id', Auth::user()->id)->paginate(10);
+    $docs = Document::where('user_id', Auth::user()->id)->latest()->paginate(50);
     return view('documents.index', compact('docs'));
   }
 
